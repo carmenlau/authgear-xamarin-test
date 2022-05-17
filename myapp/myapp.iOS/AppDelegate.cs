@@ -4,6 +4,9 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using Xamarin.Essentials;
+using Xamarin.Forms;
+using Authgear.Xamarin;
 
 namespace myapp.iOS
 {
@@ -23,9 +26,28 @@ namespace myapp.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
+
+            var authgear = new AuthgearSdk(app, new AuthgearOptions
+            {
+                ClientId = "mobile",
+                AuthgearEndpoint = "http://localhost:3100"
+            });
+            DependencyService.RegisterSingleton<AuthgearSdk>(authgear);
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
+        }
+
+        public override bool OpenUrl(UIApplication app, NSUrl url, NSDictionary options)
+        {
+            return Xamarin.Essentials.Platform.OpenUrl(app, url, options);
+        }
+
+        public override bool ContinueUserActivity(UIApplication application, NSUserActivity userActivity, UIApplicationRestorationHandler completionHandler)
+        {
+            if (Xamarin.Essentials.Platform.ContinueUserActivity(application, userActivity, completionHandler))
+                return true;
+            return base.ContinueUserActivity(application, userActivity, completionHandler);
         }
     }
 }
