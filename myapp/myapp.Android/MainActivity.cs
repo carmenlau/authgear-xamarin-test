@@ -23,7 +23,7 @@ namespace myapp.Droid
             var authgear = new AuthgearSdk(this, new AuthgearOptions
             {
                 ClientId = "mobile",
-                AuthgearEndpoint = "http://localhost:3100"
+                AuthgearEndpoint = "http://10.0.0.17:3100"
             });
             DependencyService.RegisterSingleton<AuthgearSdk>(authgear);
 
